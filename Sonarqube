@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+    environment {
+        PATH = "$PATH:/opt/apache-maven-3.8.2/bin"
+    }
+    stages {
+        stage('gitcheckout') {
+            steps{
+                 git 'https://github.com/ravdy/javaloginapp.git'
+            }
+        }
+        stage('Build') {
+            steps{
+			sh 'mvn package'
+            }
+        }
+        stage('sonarqube analysis') {
+            steps{
+            withSonarQubeEnv('sonarqube-8.9') {
+                sh 'mvn sonar:sonar'
+            }  
+                
+            }
+        }
+    }
+}
