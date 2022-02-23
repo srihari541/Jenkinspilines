@@ -1,3 +1,15 @@
+find / -name context.xml & comment those two files with <!-- to -->
+cd webapps.dist$ cp -R * ../webapps/
+and open tomcat_user.xml and paste below files
+
+ <role rolename="manager-gui"/>
+  <role rolename="manager-script"/>
+  <role rolename="manager-jmx"/>
+  <role rolename="manager-status"/>
+  <user username="admin" password="admin" roles="manager-gui, manager-script, manager-jmx, manager-status"/>
+  <user username="deployer" password="deployer" roles="manager-script"/>
+  <user username="tomcat" password="s3cret" roles="manager-gui"/>
+
 FROM tomcat:latest
 
 LABEL maintainer="srihari"
@@ -7,11 +19,3 @@ ADD ./target/LoginWebApp-1.war /usr/local/tomcat/webapps/
 EXPOSE 8080
 
 CMD ["catalina.sh", "run"]
-
- <role rolename="manager-gui"/>
-  <role rolename="manager-script"/>
-  <role rolename="manager-jmx"/>
-  <role rolename="manager-status"/>
-  <user username="admin" password="admin" roles="manager-gui, manager-script, manager-jmx, manager-status"/>
-  <user username="deployer" password="deployer" roles="manager-script"/>
-  <user username="tomcat" password="s3cret" roles="manager-gui"/>
